@@ -2,11 +2,10 @@ import React from "react";
 
 const ServicesCard = ({ service }) => {
   const { img, _id, price, title } = service;
-  console.log(img, _id, price);
   return (
     <div>
       <div className="max-w-sm mt-12 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <img className="rounded-t-lg" src={img} alt="" />
+        <img className="rounded-t-lg h-[250px] " src={img} alt="" />
         <div className="p-5">
           <a href="#">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
