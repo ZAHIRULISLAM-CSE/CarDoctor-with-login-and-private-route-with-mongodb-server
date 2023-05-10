@@ -14,7 +14,7 @@ const Bannar = () => {
         data-carousel="static"
       >
         {/* <!-- Carousel wrapper --> */}
-        <div className="relative h-96  overflow-hidden rounded-lg md:h-96">
+        <div className="relative h-[450px] overflow-hidden rounded-lg md:h-96">
           <div
             className="hidden duration-700 ease-in-out"
             data-carousel-item="active"
@@ -24,8 +24,8 @@ const Bannar = () => {
               className="absolute block h-full w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
               alt="..."
             />
-            <div className="absolute p-4 flex justify-center  flex-col text-white h-full w-full bg-gradient-to-r from-[#151515] to-[rgba(21, 21, 21, 0)]  ">
-              <h1 className=" mb-4 text-4xl">Affordable <br /> Price For Car <br /> Servicing</h1>
+            <div className="absolute  p-4 flex justify-center  flex-col text-white h-full w-full bg-gradient-to-r from-[#151515] to-[rgba(21, 21, 21, 0)]  ">
+              <h1 className=" mb-4 text-2xl  md:text-4xl">Affordable <br /> Price For Car <br /> Servicing</h1>
               <p className="w-[40%]">
                 There are many variations of passages of available, but the
                 majority have suffered alteration in some form
