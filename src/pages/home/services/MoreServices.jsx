@@ -34,7 +34,7 @@ const MoreServices = () => {
         </div>
         <div className="flex gap-3 items-center">
           <div>
-            <FaPhoneAlt></FaPhoneAlt>
+            <FaLocationArrow></FaLocationArrow>
           </div>
           <div>
                 <p>Need a repair? our address</p>
