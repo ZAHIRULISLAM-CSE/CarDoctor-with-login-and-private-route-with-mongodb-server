@@ -9,8 +9,6 @@ const Services = () => {
         .then(data=>setServices(data))
     },[])
 
-    console.log(services)
-
     return (
         <div className='mt-8 ' >
             <h1 className='text-center text-xl font-semibold text-[#FF3811]'>Service</h1>
