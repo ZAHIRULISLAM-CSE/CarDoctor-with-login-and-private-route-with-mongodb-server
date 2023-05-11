@@ -30,6 +30,7 @@ const Nav = () => {
           {user ? (
             <div className="flex gap-4">
               <p>{user.email}</p>
+              <Link to="/orders">My Orders</Link>
               <button onClick={signOut}>Sign Out</button>
             </div>
           ) : (

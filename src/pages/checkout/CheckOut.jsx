@@ -31,7 +31,7 @@ const CheckOut = () => {
             const id =parseInt(data.insertedId);
             if(id>0){
                 Swal.fire({
-                    title: 'Successfull',
+                    title: 'Order Place Successfull',
                     icon: 'success',
                     confirmButtonText:'Okay'
                   })
