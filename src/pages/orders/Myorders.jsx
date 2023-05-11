@@ -32,9 +32,34 @@ const Myorders = () => {
         const remainingBooking=bookingData.filter(booking => booking._id !=id)
         setBookingData(remainingBooking);
     });
-
-
   }
+
+  const handleUpdate=(id)=>{
+    fetch(`http://localhost:5000/bookings/${id}`,{
+        method:"PATCH",
+        headers:{
+            "content-type":"application/json"
+        },
+        body:JSON.stringify({
+            "status":"Confirmed"
+        })
+    })
+    .then(res=> res.json())
+    .then(data =>{
+            console.log(data)
+            // console.log(type)
+            if(data.modifiedCount>0){
+                console.log("ok")
+                 const remainingBooking=bookingData.filter(booking => booking._id !=id)
+                 const modifiedBooking=bookingData.find(booking => booking._id =id)
+                 modifiedBooking.status="Confirmed"
+                 const newData=[modifiedBooking,...remainingBooking];
+                 setBookingData(newData);
+
+            }
+        })
+  }
+
 
   return (
     <div className="mt-12">
@@ -62,9 +87,9 @@ const Myorders = () => {
           </thead>
           <tbody>
             {bookingData &&
-              bookingData.map((booking) => (
+              bookingData.map((booking,index) => (
                 <tr
-                  key={booking._id}
+                  key={index}
                   className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
                 >
                   <th>
@@ -89,12 +114,13 @@ const Myorders = () => {
                   <td className="px-6 py-4">{booking.title}</td>
                   <td className="px-6 py-4">{booking.price}</td>
                   <td className="px-6 py-4">
-                    <a
-                      href="#"
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                    >
-                      Confirm
-                    </a>
+                    {
+                        booking.status ? <span>Confirmed</span> :<button onClick={()=>handleUpdate(booking._id)}
+                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                      >
+                       Please  Confirm
+                      </button>
+                    }
                   </td>
                 </tr>
               ))}
