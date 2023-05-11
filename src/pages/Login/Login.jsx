@@ -15,6 +15,7 @@ const Login = () => {
         const password = event.target.password.value;
         signInwithEP(email,password)
         .then((userCredential) => {
+            setError(null);
             const user = userCredential.user;
             Swal.fire({
                 title: 'Login Successfull',

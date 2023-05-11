@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import app from '../config/firebase.config';
 import { GoogleAuthProvider } from "firebase/auth";
 import { GithubAuthProvider } from "firebase/auth";
@@ -31,9 +31,13 @@ const AuthProvider = ({children}) => {
         return signInWithPopup(auth, gitProvider)
     }
 
+    const handleLogout=()=>{
+        return signOut(auth)
+    }
+
 
     const shareFunc={
-        creatUserWithEp,signInWithGoogle,signWithGithub,signInwithEP,user
+        creatUserWithEp,signInWithGoogle,signWithGithub,signInwithEP,user,handleLogout
     }
 
     useEffect(()=>{
