@@ -1,53 +1,78 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import img1 from "../../assets/images/login/login.svg";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
+import Swal from 'sweetalert2'
+// const Swals = require('sweetalert2')
 
 const Register = () => {
-  const { creatUserWithEp,signInWithGoogle,signWithGithub } = useContext(AuthContext);
+  const { creatUserWithEp, signInWithGoogle, signWithGithub } =
+    useContext(AuthContext);
+
+  const [error, setError] = useState("");
 
   const handleSignUp = (event) => {
     event.preventDefault();
     const name = event.target.name.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
-    console.log(email, password, name);
+
+    if (
+      name.length == 0 ||
+      email.length == 0 ||
+      password.length == 0 
+    ) {
+      setError("Unsuccessfull,Please fill  all the input fields and try again");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password Length must be minimum 6 character");
+      return;
+    }
 
     creatUserWithEp(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        setError(null);
+        Swal.fire({
+          title: 'Successfull',
+          text: 'Please Login to Continue',
+          icon: 'success',
+          confirmButtonText:'Okay'
+        })
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        setError(errorMessage)
+      });
+  };
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then((result) => {
+        const user = result.user;
         console.log(user);
+        setError(null);
+      })
+      .catch((error) => {
+        // Handle Errors here
+        const errorMessage = error.message;
+        setError(errorMessage)
+      });
+  };
+
+  const handleGitSignIn = () => {
+    signWithGithub()
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        setError(null);
       })
       .catch((error) => {
         const errorMessage = error.message;
         console.log(errorMessage);
       });
   };
-
-    const handleGoogleSignIn=()=>{
-      signInWithGoogle()
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-      }).catch((error) => {
-        // Handle Errors here
-        const errorMessage = error.message;
-        console.log(errorMessage);
-      });
-    }
-
-    const handleGitSignIn=()=>{
-        signWithGithub()
-        .then((result) => {
-          const user = result.user;
-          console.log(user);
-        }).catch((error) => {
-          const errorMessage = error.message;
-          console.log(errorMessage)
-        });
-
-    }
-
-
 
   return (
     <div className="mt-12 md:grid  gap-3 items-center grid-cols-2  ">
@@ -59,12 +84,13 @@ const Register = () => {
         <form onSubmit={handleSignUp}>
           <div className="mb-6 order-2">
             <label
-              name="name"
+              
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Your Name
             </label>
             <input
+            name="name"
               type="text"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Provide Your Name"
@@ -73,49 +99,36 @@ const Register = () => {
           <div className="mb-6 order-2">
             <label
               htmlFor="email"
-              name="email"
+             
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Your email
             </label>
             <input
+             name="email"
               type="email"
               id="email"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Provide Your Email"
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-4">
             <label
               htmlFor="password"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              name="password"
+              
             >
               Your password
             </label>
             <input
+            name="password"
               type="password"
               id="password"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Provide Your Password"
             />
           </div>
-          <div className="flex items-start mb-6">
-            <div className="flex items-center h-5">
-              <input
-                id="remember"
-                type="checkbox"
-                value=""
-                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-              />
-            </div>
-            <label
-              htmlFor="remember"
-              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Remember me
-            </label>
-          </div>
+          <div className="flex items-start mb-4"></div>
           <button
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -123,9 +136,11 @@ const Register = () => {
             Submit
           </button>
         </form>
+        <h1 className="text-2xl mt-4 text-red-600  font-semibold">{error}</h1>
         <h1 className="text-2xl mt-8 text-center font-semibold">Or</h1>
         <div className="text-center mt-4">
-          <button onClick={handleGoogleSignIn}
+          <button
+            onClick={handleGoogleSignIn}
             type="button"
             className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
           >
@@ -147,7 +162,8 @@ const Register = () => {
             Sign in with Google
           </button>
           <div className="text-center mt-4">
-            <button onClick={handleGitSignIn}
+            <button
+              onClick={handleGitSignIn}
               type="button"
               className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
             >

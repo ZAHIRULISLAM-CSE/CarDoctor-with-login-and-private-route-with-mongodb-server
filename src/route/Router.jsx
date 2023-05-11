@@ -16,6 +16,10 @@ import Register from "../pages/register/Register";
                 path: "/register",
                 element:<Register></Register>,
             },
+            {
+              path: "/login",
+              element:<Login></Login>,
+          },
         ]
         },
       ])
