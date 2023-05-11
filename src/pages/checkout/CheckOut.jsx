@@ -8,10 +8,33 @@ const CheckOut = () => {
   const email = user?.email;
   const { img, price, title } = loadedData;
 
+  const handleOrder=(event)=>{
+        event.preventDefault();
+        const name = event.target.name.value;
+        const date = event.target.date.value;
+
+        const orderData={
+            img,email,price,title,name,date
+        }
+        
+        fetch("http://localhost:5000/bookings",{
+            method:"POST",
+            headers:{
+                "content-type":"application/json"
+            },
+            body:JSON.stringify(orderData)  
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+
+  }
+
+
+
   return (
     <div className="mt-12">
         <h1 className="text-3xl text-center mb-8" >Checkout:{title}</h1>
-      <form>
+      <form  onSubmit={handleOrder}  >
         <div className="grid md:grid-cols-2 gap-4">
           <div className="mb-4">
             <label
@@ -61,13 +84,13 @@ const CheckOut = () => {
               Amount
             </label>
             <input
-              name="name"
+              name="amount"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 defaultValue={`To Pay:${price}`} readOnly
             />
           </div>
         </div>
-        <button className="w-full text-white text-2xl p-2 rounded-xl mt-8 bg-blue-500">Confirm Order</button>
+        <button type="submit" className="w-full text-white text-2xl p-2 rounded-xl mt-8 bg-blue-500">Confirm Order</button>
       </form>
     </div>
   );
