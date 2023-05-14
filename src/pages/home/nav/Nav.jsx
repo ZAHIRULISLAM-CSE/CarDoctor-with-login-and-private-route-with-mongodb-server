@@ -26,11 +26,11 @@ const Nav = () => {
         <Navbar.Collapse>
           <Link to="/">Home</Link>
           <Link to="/about">About</Link>
+          <Link to="/orders">My Orders</Link>
           {/* <Link to="/checkout">CheckOut</Link> */}
           {user ? (
             <div className="flex gap-4">
               <p>{user.email}</p>
-              <Link to="/orders">My Orders</Link>
               <button onClick={signOut}>Sign Out</button>
             </div>
           ) : (
