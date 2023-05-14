@@ -2,13 +2,14 @@ import React, { useContext, useState } from "react"
 import img1 from '../../assets/images/login/login.svg'
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import Swal from 'sweetalert2'
-import {  useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [error,setError]=useState('')
     const {signInwithEP}=useContext(AuthContext);
     const navigate=useNavigate();
-    const state = "/";
+    const location=useLocation();
+    const state =location.state?location.state:"/";
     const handleSignUp=(event)=>{
         event.preventDefault();
         const email = event.target.email.value;
