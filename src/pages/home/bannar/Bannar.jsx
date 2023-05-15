@@ -37,7 +37,7 @@ const Bannar = () => {
           </div>
 
           <div
-            className="hidden duration-700 ease-in-out"
+            className=" duration-700 ease-in-out"
             data-carousel-item="active"
           >
             <img
