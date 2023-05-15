@@ -1,20 +1,34 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 
 const Myorders = () => {
   const { user, loading } = useContext(AuthContext);
+  const navigate=useNavigate();
   
   const [bookingData, setBookingData] = useState([]);
   const email = user?.email;
+  
+
+  const localData=localStorage.getItem("access-token")
 
   useEffect(() => {
-    fetch(`http://localhost:5000/bookings?email=${email}`)
+    fetch(`http://localhost:5000/bookings?email=${email}`,{
+        method:"GET",
+        headers:{
+          authorization:`${localData}`
+        }
+    })
       .then((res) => res.json())
-      .then((data) => setBookingData(data));
+      .then((data) =>{
+        if(!data.error){
+          setBookingData(data)
+      }else{
+        navigate("/")
+      }
+      });
   }, [email]);
-
-
   const handleDelete=(id)=>{
 
     fetch(`http://localhost:5000/bookings/${id}`,{

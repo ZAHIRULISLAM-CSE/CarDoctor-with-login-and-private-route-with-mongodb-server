@@ -9,6 +9,9 @@ const Nav = () => {
 
   const signOut=()=>{
     handleLogout()
+    .then(()=>{
+      localStorage.removeItem("access-token")
+    }) 
   }
 
   return (
@@ -26,10 +29,10 @@ const Nav = () => {
         <Navbar.Collapse>
           <Link to="/">Home</Link>
           <Link to="/about">About</Link>
-          <Link to="/orders">My Orders</Link>
           {/* <Link to="/checkout">CheckOut</Link> */}
           {user ? (
             <div className="flex gap-4">
+              <Link to="/orders">My Orders</Link>
               <p>{user.email}</p>
               <button onClick={signOut}>Sign Out</button>
             </div>
